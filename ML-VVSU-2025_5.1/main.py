@@ -15,22 +15,30 @@ from parser import (
 from db import init_db, insert_article, exists_url
 from config import (
     SITES_CONFIG, DEFAULT_DB_PATH, DEFAULT_USER_AGENT,
-    HTTP_REQUEST_TIMEOUT, DEFAULT_PAGES, DEFAULT_ARTICLES_PER_PAGE
+    HTTP_REQUEST_TIMEOUT, DEFAULT_PAGES, DEFAULT_ARTICLES_PER_PAGE, RATE_LIMIT_PER_SEC
 )
 
 
-def fetch_html(url: str, headers: Optional[Dict] = None) -> Optional[str]:
-    """Загружает HTML страницы"""
+def fetch_html(url: str, headers=None):
+    _last_request_ts = 0.0
+    
+    now = time.time()
+    elapsed = now - _last_request_ts
+    min_interval = 1.0 / RATE_LIMIT_PER_SEC
+    if elapsed < min_interval:
+        time.sleep(min_interval - elapsed)
+    
     try:
         default_headers = {'User-Agent': DEFAULT_USER_AGENT}
-        if headers:
-            default_headers.update(headers)
-        
-        response = requests.get(url, headers=default_headers, timeout=HTTP_REQUEST_TIMEOUT)
+        if headers: default_headers.update(headers)
+        response = requests.get(url, headers=default_headers, timeout=30)
         response.raise_for_status()
         response.encoding = response.apparent_encoding or 'utf-8'
+        
+        _last_request_ts = time.time()  # отметка ПОСЛЕ
         return response.text
     except Exception as e:
+        _last_request_ts = time.time()  # даже при ошибке
         print(f"Ошибка при загрузке {url}: {e}", file=sys.stderr)
         return None
 
