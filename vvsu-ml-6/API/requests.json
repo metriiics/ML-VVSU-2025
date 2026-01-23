@@ -1,0 +1,22 @@
+{
+  "name": "Python разработчик",
+  "description": "Разработка backend на Django и FastAPI. Оптимизация SQL запросов. Участие в code review. Требования: опыт от 1 года, знание Python, Django, FastAPI, PostgreSQL, Docker.",
+  "salary_start": 150000.0,
+  "salary_to": 250000.0,
+  "currency": "RUR",
+  "salary_mode": "За месяц",
+  "experience": "От 1 года до 3 лет",
+  "employment": "Полная занятость",
+  "schedule": "[\"5/2\"]",
+  "working_hours": "[\"8 часов\"]",
+  "work_format": "[\"Гибрид\"]",
+  "professional_roles": "[\"Разработчик\"]",
+  "type": "Открытая",
+  "employer_trusted": 1,
+  "premium_status": 0,
+  "key_skills": "[\"Python\", \"Django\", \"FastAPI\", \"PostgreSQL\", \"Docker\"]",
+  "day": 15,
+  "month": 1,
+  "year": 2024
+}
+
